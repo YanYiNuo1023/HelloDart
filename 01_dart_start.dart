@@ -69,6 +69,14 @@ class Spacecraft {
   }
 }
 
+//扩展类（继承）（https://dart.cn/samples#inheritance）
+class Orbiter extends Spacecraft {
+  double altitude;
+
+  Orbiter(String name, DateTime launchDate, this.altitude)
+      : super(name, launchDate);
+}
+
 void main() {
   //变量
   variables();
@@ -85,4 +93,7 @@ void main() {
   voyager.describe();
   var voyager3 = Spacecraft.unlaunched('Voyager III');
   voyager3.describe();
+  //扩展类（继承）
+  var voyager2 = Orbiter('Voyager II', DateTime(1992, 5, 11),3);
+  voyager2.describe();
 }

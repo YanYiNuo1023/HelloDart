@@ -1,3 +1,6 @@
+//导入（https://dart.cn/samples#imports）
+import 'dart:math';
+
 //变量 （https://dart.cn/samples#variables）
 void variables() {
   var name = 'Voryager I';
@@ -51,4 +54,7 @@ void main() {
   //函数
   var result = fibonacci(20);
   print('result = $result');
+  //导入
+  var intValue = Random().nextInt(10); 
+  print('intValue = $intValue');
 }

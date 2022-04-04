@@ -77,6 +77,19 @@ class Orbiter extends Spacecraft {
       : super(name, launchDate);
 }
 
+//Mixins (https://dart.cn/samples#mixins)
+mixin Piloted {
+  int astronauts = 1;
+
+  void describeCrew() {
+    print('Number of astronauts: $astronauts');
+  }
+}
+class PilotedCraft extends Spacecraft with Piloted{
+  PilotedCraft(String name, DateTime launchDate)
+      : super(name, launchDate);
+}
+
 void main() {
   //变量
   variables();
@@ -96,4 +109,8 @@ void main() {
   //扩展类（继承）
   var voyager2 = Orbiter('Voyager II', DateTime(1992, 5, 11),3);
   voyager2.describe();
+  //Mixins
+  var voyager4 = PilotedCraft('Voyager IV', DateTime(1991, 11, 29));
+  voyager4.describe();
+  voyager4.describeCrew();
 }

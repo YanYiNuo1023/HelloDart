@@ -226,7 +226,7 @@ Future<void> the_async() async {
   print('\n');
   print('*' * 50);
   print('异步');
-  print('*' * 50);  
+  print('*' * 50);
 
   const oneSecond = Duration(seconds: 1);
 
@@ -272,6 +272,30 @@ Future<void> the_async() async {
   await Future.delayed(Duration(seconds: 5));
 }
 
+//异常（https://dart.cn/samples#exceptions）
+Future<void> findDescriptions(flybyObjects) async {
+  try {
+    for (final object in flybyObjects) {
+      var description = await File('$object.txt').readAsString();
+      print(description);
+    }
+  } on IOException catch (ex) {
+    print('Could not describe object: $ex');
+  } finally {
+    flybyObjects.clear();
+  }
+}
+
+void abnormal_exceptions() {
+  print('\n');
+  print('*' * 50);
+  print('异常');
+  print('*' * 50);
+
+  var flybyObjects = ['Jupiter', 'Saturn', 'Pluto'];
+  findDescriptions(flybyObjects);
+}
+
 Future<void> main(List<String> args) async {
   //变量
   variables();
@@ -293,4 +317,6 @@ Future<void> main(List<String> args) async {
   interface_and_abstract_classes();
   // 异步
   await the_async();
+  //异常
+  abnormal_exceptions();
 }

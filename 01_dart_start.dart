@@ -3,6 +3,11 @@ import 'dart:math';
 
 //变量 （https://dart.cn/samples#variables）
 void variables() {
+  print('\n');
+  print('*' * 50);
+  print('变量');
+  print('*' * 50);
+
   var name = 'Voryager I';
   var year = 1977;
   var antennaDiameter = 3.7;
@@ -18,6 +23,11 @@ void variables() {
 
 //流程控制语句（https://dart.cn/samples#control-flow-statements）
 void control() {
+  print('\n');
+  print('*' * 50);
+  print('流程控制语句');
+  print('*' * 50);
+
   var year = 1977;
   var flybyObjects = ['Jupiter', 'Saturn', 'Urans', 'Neptune'];
 
@@ -35,8 +45,10 @@ void control() {
     print(month);
   }
 
+  year = 2010;
   while (year < 2016) {
     year += 1;
+    print(year);
   }
 }
 
@@ -44,6 +56,55 @@ void control() {
 int fibonacci(int n) {
   if (n == 0 || n == 1) return n;
   return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+void functions() {
+  print('\n');
+  print('*' * 50);
+  print('函数');
+  print('*' * 50);
+
+  var result = fibonacci(20);
+  print('fibonacci(20) = $result');
+
+  var flybyObjects = [
+    'hello',
+    'abc',
+    '123',
+    'how do you do',
+    'nice to meet you'
+  ];
+  for (final object in flybyObjects) {
+    print(object);
+  }
+  print('上述语句中包含"you"的语句如下：');
+  flybyObjects.where((name) => name.contains('you')).forEach(print);
+}
+
+//注释（https://dart.cn/samples#comments）
+void annotations() {
+  print('\n');
+  print('*' * 50);
+  print('注释');
+  print('*' * 50);
+
+  /// 这是一个文档注释。
+  /// 文档注释用于为库、类以及类的成员添加注释。
+  /// 像 IDE 和 dartdoc 这样的工具可以专门处理文档注释。
+
+/* 也可以像这样使用单斜杠和星号的注释方式 */
+  print('注释不会被输出，也不会进行操作');
+}
+
+//导入（https://dart.cn/samples#imports）
+void import() {
+  print('\n');
+  print('*' * 50);
+  print('导入');
+  print('*' * 50);
+
+  var intValue = Random().nextInt(10);
+  print('intValue = $intValue');
 }
 
 //类（https://dart.cn/samples#classes）
@@ -69,12 +130,40 @@ class Spacecraft {
   }
 }
 
+void classes() {
+  print('\n');
+  print('*' * 50);
+  print('类');
+  print('*' * 50);
+
+  var voyager = Spacecraft('Voyager I', DateTime(1977, 9, 5));
+  voyager.describe();
+  var voyager3 = Spacecraft.unlaunched('Voyager III');
+  voyager3.describe();
+}
+
 //扩展类（继承）（https://dart.cn/samples#inheritance）
 class Orbiter extends Spacecraft {
   double altitude;
 
   Orbiter(String name, DateTime launchDate, this.altitude)
       : super(name, launchDate);
+
+  @override
+  void describe() {
+    super.describe();
+    print('Altitude : $altitude km');
+  }
+}
+
+void inheritance() {
+  print('\n');
+  print('*' * 50);
+  print('扩展类（继承）');
+  print('*' * 50);
+
+  var voyager2 = Orbiter('Voyager II', DateTime(1992, 5, 11), 500);
+  voyager2.describe();
 }
 
 //Mixins (https://dart.cn/samples#mixins)
@@ -85,9 +174,49 @@ mixin Piloted {
     print('Number of astronauts: $astronauts');
   }
 }
-class PilotedCraft extends Spacecraft with Piloted{
-  PilotedCraft(String name, DateTime launchDate)
-      : super(name, launchDate);
+
+class PilotedCraft extends Spacecraft with Piloted {
+  PilotedCraft(String name, DateTime launchDate) : super(name, launchDate);
+}
+
+void mixins() {
+  print('\n');
+  print('*' * 50);
+  print('Mixins');
+  print('*' * 50);
+
+  var voyager4 = PilotedCraft('Voyager IV', DateTime(1991, 11, 29));
+  voyager4.describe();
+  voyager4.describeCrew();
+}
+
+//接口和抽象类（https://dart.cn/samples#interfaces-and-abstract-classes）
+class MockSpaceship implements Spacecraft {
+  @override
+  DateTime? launchDate;
+
+  @override
+  String name;
+
+  MockSpaceship(this.name, this.launchDate);
+
+  @override
+  void describe() {
+    print('Mock Spacecraft: $name');
+  }
+
+  @override
+  int? get launchYear => launchDate?.year;
+}
+
+void interface_and_abstract_classes() {
+  print('\n');
+  print('*' * 50);
+  print('接口和抽象类');
+  print('*' * 50);
+
+  var voyager5 = MockSpaceship('Voyager V', null);
+  voyager5.describe();
 }
 
 void main() {
@@ -96,21 +225,17 @@ void main() {
   //流程控制语句
   control();
   //函数
-  var result = fibonacci(20);
-  print('result = $result');
+  functions();
+  //注释
+  annotations();
   //导入
-  var intValue = Random().nextInt(10);
-  print('intValue = $intValue');
+  import();
   //类
-  var voyager = Spacecraft('Voyager I', DateTime(1977, 9, 5));
-  voyager.describe();
-  var voyager3 = Spacecraft.unlaunched('Voyager III');
-  voyager3.describe();
+  classes();
   //扩展类（继承）
-  var voyager2 = Orbiter('Voyager II', DateTime(1992, 5, 11),3);
-  voyager2.describe();
+  inheritance();
   //Mixins
-  var voyager4 = PilotedCraft('Voyager IV', DateTime(1991, 11, 29));
-  voyager4.describe();
-  voyager4.describeCrew();
+  mixins();
+  //接口和抽象类
+  interface_and_abstract_classes();
 }

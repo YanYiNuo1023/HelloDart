@@ -476,6 +476,83 @@ void error() {
   print('"error" is OK');
 }
 
+//dart:math - 数学和随机数（https://dart.cn/guides/libraries/library-tour#dartmath---math-and-random）
+//三角函数
+void Trigonometry() {
+  //Math 库提供基本的三角函数：
+
+  assert(cos(pi) == -1.0);
+  var cos_pi = cos(pi);
+  print('cos(Π)=$cos_pi');
+
+  var degrees = 30;
+  var radians = degrees * (pi / 180);
+  //弧度是0.52359.
+  var sinOf30degrees = sin(radians);
+  print('sin(30°)=$sinOf30degrees');
+  //sin 30° = 0.5
+  assert((sinOf30degrees - 0.5).abs() < 0.01);
+  if ((sinOf30degrees - 0.5).abs() < 0.01) {
+    print('sin(30°)=0.5');
+  }
+
+  print('"Trigonometry" is OK');
+}
+
+//最大值和最小值
+void Maximum_and_minimum() {
+  //可以用max或min来求最值，函数在Math库里面
+  assert(max(1, 1000) == 1000);
+  var max_number = max(1, 1000);
+  print('1和1000两数中较大者为：$max_number');
+
+  assert(min(1, -1000) == -1000);
+  var min_number = min(1, 1000);
+  print('1和1000两数中较小者为：$min_number');
+
+  print('"Maximum_and_minimum" is OK');
+}
+
+//数学常数
+void Math_constants() {
+  print('规定常数e为：');
+  print(e); // 2.718281828459045
+  print('规定常数Π为：');
+  print(pi); // 3.141592653589793
+  print('规定常数根号2为：');
+  print(sqrt2); // 1.4142135623730951
+
+  print('"Math_constants" is OK');
+}
+
+//随机数
+void Random_numbers() {
+  //使用 Random 类产生随机数。可以为 Random 构造函数提供一个可选的种子参数。
+  var random = Random();
+  var random1 = random.nextDouble(); // Between 0.0 and 1.0: [0, 1)
+  print(random1);
+  var random2 = random.nextInt(10); // Between 0 and 9.
+  print(random2);
+
+  //也可以产生随机布尔值序列：
+  var random3 = random.nextBool(); // true or false
+  print(random3);
+
+  print('"Random_numbers" is OK');
+}
+
+void dart_math() {
+  print('\n');
+  print('*' * 50);
+  print('dart_math - 数学和随机数');
+  print('*' * 50);
+
+  Trigonometry();
+  Maximum_and_minimum();
+  Math_constants();
+  Random_numbers();
+}
+
 void main(List<String> args) {
   //数字
   number();
@@ -497,4 +574,7 @@ void main(List<String> args) {
 
   //异常
   error();
+
+  //dart_math - 数学和随机数
+  dart_math();
 }

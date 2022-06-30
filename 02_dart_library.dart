@@ -315,6 +315,47 @@ void URIs() {
   Building_URIs();
 }
 
+//日期和时间  (https://dart.cn/guides/libraries/library-tour#dates-and-times)
+void dates_and_times() {
+  print('\n');
+  print('*' * 50);
+  print('日期和时间');
+  print('*' * 50);
+
+  var now = DateTime.now(); //获得现在时间
+  print('现在时间为：$now');
+
+ //设置一个时间
+  var y2k = DateTime(2000); // January 1, 2000
+  //确切的年月日
+  y2k = DateTime(2000, 1, 2); // January 2, 2000
+  //确切的UTC时间
+  y2k = DateTime.utc(2000); // 1/1/2000, UTC
+
+  y2k = DateTime.fromMillisecondsSinceEpoch(946684800000, isUtc: true);
+  y2k = DateTime.parse('2000-01-01T00:00:00Z');
+  y2k = DateTime.utc(2000);
+  assert(y2k.millisecondsSinceEpoch == 946684800000);
+
+  var unixEpoch = DateTime.utc(1970);
+  assert(unixEpoch.millisecondsSinceEpoch == 0);
+
+  y2k = DateTime.utc(2000);
+  // 时间加上一年
+  var y2001 = y2k.add(const Duration(days: 366));
+  assert(y2001.year == 2001);
+  // 减去三十天
+  var december2000 = y2001.subtract(const Duration(days: 30));
+  assert(december2000.year == 2000);
+  assert(december2000.month == 12);
+
+
+  var duration = y2001.difference(y2k);
+  assert(duration.inDays == 366); // y2k was a leap year.
+  print('y2k was a leap year.');
+  print('"dates_and_times" is OK');
+}
+
 void main(List<String> args) {
   //数字
   number();
@@ -327,4 +368,7 @@ void main(List<String> args) {
 
   //URIs
   URIs();
+
+  //日期和时间
+  dates_and_times();
 }

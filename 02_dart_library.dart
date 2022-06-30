@@ -101,6 +101,8 @@ void stringAreg() {
   for (final match in numbers.allMatches(someDigits)) {
     print(match.group(0)); // 15, then 20
   }
+
+  print('"stringAreg" is OK');
 }
 
 //集合（https://dart.cn/guides/libraries/library-tour#collections）
@@ -449,6 +451,31 @@ void tools() {
   print('"tools" is OK');
 }
 
+//异常（https://dart.cn/guides/libraries/library-tour#exceptions）
+class FooException implements Exception {
+  final String? msg;
+
+  const FooException([this.msg]);
+
+  @override
+  String toString() => msg ?? 'FooException';
+}
+
+void error() {
+  print('\n');
+  print('*' * 50);
+  print('异常');
+  print('*' * 50);
+
+  try {
+    throw FooException('foo');
+  } on FooException catch (e) {
+    print(e);
+  }
+
+  print('"error" is OK');
+}
+
 void main(List<String> args) {
   //数字
   number();
@@ -467,4 +494,7 @@ void main(List<String> args) {
 
   //工具类
   tools();
+
+  //异常
+  error();
 }

@@ -258,6 +258,63 @@ void collections() {
   CommonCollectionMethods();
 }
 
+//URIs（https://dart.cn/guides/libraries/library-tour#uris）
+//编码和解码完整合法的URI
+void EncodingAndDecoding() {
+  var uri = 'https://example.org/api?foo=some message';
+
+  var encoded = Uri.encodeFull(uri);
+  assert(encoded == 'https://example.org/api?foo=some%20message');
+
+  var decoded = Uri.decodeFull(encoded);
+  assert(uri == decoded);
+  print('"EncodingAndDecoding" is OK');
+}
+
+//编码和解码 URI 组件
+void Encoding_and_decoding_URI_components() {
+  var uri = 'https://example.org/api?foo=some message';
+
+  var encoded = Uri.encodeComponent(uri);
+  assert(encoded == 'https%3A%2F%2Fexample.org%2Fapi%3Ffoo%3Dsome%20message');
+
+  var decoded = Uri.decodeComponent(encoded);
+  assert(uri == decoded);
+  print('"Encoding_and_decoding_URI_components" is OK');
+}
+
+//解析 URI
+void Parsing_URIs() {
+  var uri = Uri.parse('https://example.org:8080/foo/bar#frag');
+
+  assert(uri.scheme == 'https');
+  assert(uri.host == 'example.org');
+  assert(uri.path == '/foo/bar');
+  assert(uri.fragment == 'frag');
+  assert(uri.origin == 'https://example.org:8080');
+  print('"Parsing_URIs" is OK');
+}
+
+//构建 URI
+void Building_URIs() {
+  var uri = Uri(
+      scheme: 'https', host: 'example.org', path: '/foo/bar', fragment: 'frag');
+  assert(uri.toString() == 'https://example.org/foo/bar#frag');
+  print('"Building_URIs" is OK');
+}
+
+void URIs() {
+  print('\n');
+  print('*' * 50);
+  print('URIs');
+  print('*' * 50);
+
+  EncodingAndDecoding();
+  Encoding_and_decoding_URI_components();
+  Parsing_URIs();
+  Building_URIs();
+}
+
 void main(List<String> args) {
   //数字
   number();
@@ -267,4 +324,7 @@ void main(List<String> args) {
 
   //集合
   collections();
+
+  //URIs
+  URIs();
 }

@@ -1,3 +1,7 @@
+import 'dart:collection';
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 //dart:core - 数字，集合，字符串等(https://dart.cn/guides/libraries/library-tour#dartcore---numbers-collections-strings-and-more)
@@ -325,7 +329,7 @@ void dates_and_times() {
   var now = DateTime.now(); //获得现在时间
   print('现在时间为：$now');
 
- //设置一个时间
+  //设置一个时间
   var y2k = DateTime(2000); // January 1, 2000
   //确切的年月日
   y2k = DateTime(2000, 1, 2); // January 2, 2000
@@ -349,11 +353,100 @@ void dates_and_times() {
   assert(december2000.year == 2000);
   assert(december2000.month == 12);
 
-
   var duration = y2001.difference(y2k);
   assert(duration.inDays == 366); // y2k was a leap year.
   print('y2k was a leap year.');
   print('"dates_and_times" is OK');
+}
+
+//工具类（https://dart.cn/guides/libraries/library-tour#utility-classes）
+class Line implements Comparable<Line> {
+  final int length;
+  const Line(this.length);
+
+  @override
+  int compareTo(Line other) => length - other.length;
+}
+
+class Person {
+  final String firstName, lastName;
+  Person(this.firstName, this.lastName);
+
+  @override
+  int get hashCode => Object.hash(firstName, lastName);
+
+  @override
+  bool operator ==(dynamic other) {
+    //dynamic会关闭变量类型检查，不过可以用于存储任何一个类型的变量
+    return other is Person &&
+        other.firstName == firstName &&
+        other.lastName == lastName;
+  }
+}
+
+class Process {
+  final String name;
+  final int pid;
+  Process(this.name, this.pid);
+}
+
+class ProcessIterator implements Iterator<Process> {
+  final List<Process> _processes;
+  int _index = -1;
+  ProcessIterator(this._processes);
+
+  @override
+  Process get current => _processes[_index];
+  @override
+  bool moveNext() {
+    if (_index < _processes.length - 1) {
+      _index++;
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+class Processes extends IterableBase<Process> {
+  final List<Process> _processes;
+
+  @override
+  final Iterator<Process> iterator;
+
+  Processes(this._processes) : iterator = ProcessIterator(_processes);
+}
+
+void tools() {
+  print('\n');
+  print('*' * 50);
+  print('工具类');
+  print('*' * 50);
+
+  //比较 Comparable接口
+  var short = const Line(1);
+  var long = const Line(100);
+  assert(short.compareTo(long) < 0);
+
+  //比较自定义类
+  var p1 = Person('Bob', 'Smith');
+  var p2 = Person('Bob', 'Smith');
+  var p3 = 'not a person';
+  assert(p1.hashCode == p2.hashCode);
+  assert(p1 == p2);
+  assert(p1 != p3);
+
+  //迭代器
+  var processes = Processes([
+    Process('dart', 127),
+    Process('python', 234),
+    Process('java', 325),
+  ]);
+  for (var process in processes) {
+    print('${process.name} ${process.pid}');
+  }
+
+  print('"tools" is OK');
 }
 
 void main(List<String> args) {
@@ -371,4 +464,7 @@ void main(List<String> args) {
 
   //日期和时间
   dates_and_times();
+
+  //工具类
+  tools();
 }

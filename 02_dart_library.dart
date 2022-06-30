@@ -553,6 +553,106 @@ void dart_math() {
   Random_numbers();
 }
 
+//dart:convert 编解码JSON、UTF-8等（https://dart.cn/guides/libraries/library-tour#dartconvert---decoding-and-encoding-json-utf-8-and-more）
+Future<void> learnConvertLib() async {
+  print('\n');
+  print('*' * 50);
+  print('dart:convert 编解码JSON、UTF-8等');
+  print('*' * 50);
+
+  //编解码JSON
+  var jsonString = '''
+    [
+      {"score":40},
+      {"score":80}
+    ]
+  ''';
+  var scores = jsonDecode(jsonString);
+  assert(scores is List);
+  var firstScore = scores[0];
+  assert(firstScore is Map);
+  assert(firstScore['score'] == 40);
+  //使用 jsonEncode() 编码 Dart 对象为 JSON 格式的字符串
+  var json = {
+    'name': 'dart',
+    'age': 18,
+    'isStudent': true,
+    'friends': ['张三', '李四', '王五'],
+    'address': {'city': '北京', 'street': '东路'}
+  };
+  var jsonText = jsonEncode(json);
+  assert(jsonText ==
+      '{"name":"dart","age":18,"isStudent":true,"friends":["张三","李四","王五"],"address":{"city":"北京","street":"东路"}}');
+  //int,double,String,bool,null,List,Map都可以直接编码为JSON
+  //List和Map对象进行递归编码
+
+  //编解码 UTF-8 字符
+  List<int> utf8Bytes = [
+    0xc3,
+    0x8e,
+    0xc3,
+    0xb1,
+    0xc5,
+    0xa3,
+    0xc3,
+    0xa9,
+    0x72,
+    0xc3,
+    0xb1,
+    0xc3,
+    0xa5,
+    0xc5,
+    0xa3,
+    0xc3,
+    0xae,
+    0xc3,
+    0xb6,
+    0xc3,
+    0xb1,
+    0xc3,
+    0xa5,
+    0xc4,
+    0xbc,
+    0xc3,
+    0xae,
+    0xc5,
+    0xbe,
+    0xc3,
+    0xa5,
+    0xc5,
+    0xa3,
+    0xc3,
+    0xae,
+    0xe1,
+    0xbb,
+    0x9d,
+    0xc3,
+    0xb1
+  ];
+
+  var funnyWord = utf8.decode(utf8Bytes);
+
+  assert(funnyWord == 'Îñţérñåţîöñåļîžåţîờñ');
+
+  Stream<List<int>> inputStream = File('config').openRead();
+  var lines = utf8.decoder.bind(inputStream).transform(const LineSplitter());
+  try {
+    await for (final line in lines) {
+      print('Got ${line.length} characters from stream');
+    }
+  } catch (e) {
+    print('e');
+  }
+
+  List<int> encoded = utf8.encode('Îñţérñåţîöñåļîžåţîờñ');
+  assert(encoded.length == utf8Bytes.length);
+  for (int i = 0; i < encoded.length; i++) {
+    assert(encoded[i] == utf8Bytes[i]);
+  }
+
+  print('"learnConvertLib" is OK');
+}
+
 void main(List<String> args) {
   //数字
   number();
@@ -577,4 +677,7 @@ void main(List<String> args) {
 
   //dart_math - 数学和随机数
   dart_math();
+
+  //dart:convert 编解码JSON、UTF-8等
+  learnConvertLib();
 }
